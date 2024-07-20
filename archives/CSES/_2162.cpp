@@ -12,12 +12,28 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int n; cin >> n;
+    vector<int> a(n);
+    for(int i = 0; i < n; i++) a[i] = i + 1;
+    int onf = 0;
+    while(a.size() != 1) {
+        vector<int> temp;
+        for(int i = 1 - onf; i < a.size(); i += 2) {
+            cout << a[i] << ' ';
+        }
+        for(int i = onf; i < a.size(); i += 2) {
+            temp.push_back(a[i]);
+        }
+        onf = (a.size() - onf) % 2 == 1;
+        swap(temp, a);
+    }
+    cout << a[0] << endl;
 }
 
 int main() {
     HEADER;
     int T = 1;
-    cin >> T;
+    // cin >> T;
     for (int t = 0; t < T; t++) {
         TC();
     }
