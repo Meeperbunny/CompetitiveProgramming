@@ -11,70 +11,33 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #define dbg(...)
 #endif
 
-void fillLeaf(int c, int l, vector<int> &fl, vector<vector<int>> &adj) {
-    int cl = -1;
-    for(auto e : adj[c]) {
-        if (e != l) {
-            fillLeaf(e, c, fl, adj);
-            cl = max(cl, fl[e]);
-        }
-    }
-    fl[c] = cl + 1;
+int query(int n) {
+    cout << "? " << n + 1 << endl;
+    cout.flush();
+    int res; cin >> res;
+    return res;
 }
 
-void query(int x) {
-    cout << "? " << x << endl;
+void answer(int n) {
+    cout << "! " << n + 1 << endl;
     cout.flush();
 }
 
-void ans(int x) {
-    cout << "! " << x + 1 << endl;
-    cout.flush();
-}
-int constAdv(int c, int l, vector<vector<int>> &adv, vector<vector<int>> &adj, vector<int> &fleaf, const int X) {
-    // what to return?
-    if (fleaf[c] <= X) {
-        return c;
-    }
-    if (adj[c].size() > 2) {
-        // branch
-        for(auto e : adj[c]) {
-            if (e != l) {
-                if (fleaf[e] >= X) {
-                    // include it
-                    int res = constAdv(e, c, adv, adj, fleaf, X);
-                    adv[c].push_back(res);
-                }
-            }
-        }
-        return c;
-    }
-    else {
-        for(auto e : adj[c]) {
-            if (e != l) {
-                int ch = constAdv(e, c, adv, adj, fleaf, X);
-                if (c == 0) {
-                    adv[c].push_back(ch);
-                }
-                return ch;
-            }
-        }
-    }
-}
-
-void constBin(int c, int l, vector<vector<int>> &adj, vector<vector<int>> &blift) {
+void constToLeaf(int c, int l, vector<vector<int>> &adj, vector<int> &ldist, vector<int> &par) {
+    int mdist = 0;
     for(auto e : adj[c]) {
         if (e != l) {
-            blift[e][0] = c;
-            constBin(e, c, adj, blift);
+            constToLeaf(e, c, adj, ldist, par);
+            mdist = max(ldist[e] + 1, mdist);
+            par[e] = c;
         }
     }
+    ldist[c] = mdist;
 }
 
 void TC() {
-    const int X = 50;
+    const int X = 80;
     int n; cin >> n;
-    int resp; 
     vector<vector<int>> adj(n);
     for(int i = 0; i < n - 1; i++) {
         int a, b;
@@ -83,106 +46,99 @@ void TC() {
         adj[a].push_back(b);
         adj[b].push_back(a);
     }
-    vector<int> furthestLeaf(n, -1);
-    fillLeaf(0, -1, furthestLeaf, adj);
-    // for(auto e : furthestLeaf) cout << e << ' ';
-    // cout << endl;
-    // Find one that has distance 0. Do that x times. If is 1, then return that node
-    // otherwise keep doing it.
-    int chosenNode = -1;
-    for(int i = 0; i < n; i++) {
-        if (furthestLeaf[i] == 0) {
-            chosenNode = i;
+
+    // Ask X queries at a leaf node
+    int leafInd = -1;
+    for(int i = 1; i < n; i++) {
+        if (adj[i].size() == 1) {
+            leafInd = i;
             break;
         }
     }
     for(int i = 0; i < X; i++) {
-        query(chosenNode);
-        cin >> resp;
-        if (resp == 1) {
-            ans(chosenNode);
+        int res = query(leafInd);
+        if (res == 1) {
+            answer(leafInd);
             return;
         }
-        else {
-            // wait
-        }
     }
-    // Have done it x times. Now search
-    dbg("Searching");
-    int cnode = 0;
-    int upper = 0;
+
+    // Have queried X times. Now all with a max depth of < X are not included.
+    // Find max depth
+    vector<int> ldist(n, -1);
+    vector<int> par(n, -1);
+    constToLeaf(0, -1, adj, ldist, par);
+
+    if (ldist[0] <= X) {
+        answer(0);
+        return;
+    }
+
+    // Have advanced search tree, const search
     int lower = -1;
-    vector<vector<int>> advAdj(n);
-    constAdv(0, -1, advAdj, adj, furthestLeaf, X);
-    // for(int i = 0; i < n; i++) {
-    //     cout << i << " :: ";
-    //     for(auto q : advAdj[i]) cout << q << ' ';
-    //     cout << endl;
-    // }
+    int curr = 0;
     while(true) {
-        dbg(cnode);
-        // All nodes in subtree such that len to leaf > X
-        if (advAdj[cnode].size() == 1) {
-            cnode = advAdj[cnode][0];
-            dbg("Moving to next adv adj");
+        dbg(curr);
+        bool found = false;
+        vector<int> relNodes;
+        for(auto e : adj[curr]) {
+            if (e == par[curr]) continue;
+            if (ldist[e] < X) continue;
+            relNodes.push_back(e);
         }
-        else if (advAdj[cnode].size() == 0) {
-            lower = cnode;
+        if (relNodes.size() == 0) {
+            lower = curr;
             break;
-            dbg("IS a leaf, breaking");
         }
-        else {
-            for(auto child : advAdj[cnode]) {
-                dbg("DS adv adj child", child);
-                int r1, r2;
-                query(cnode);
-                cin >> r1;
-                // If current is 0, the mole is above current
-                if (r1 == 0) {
-                    upper = 0;
-                    lower = cnode;
-                    break;
-                }
-                query(cnode);
-                cin >> r2;
-                if (r2 == 0) {
-                    // Not in this subtree
-                    continue;
-                }
-                else {
-                    // In this child. Go down to next intersection
-                    cnode = child;
-                }
+        else if (relNodes.size() == 1) {
+            curr = relNodes[0];
+            continue;
+        }
+        for(auto e : relNodes) {
+            int r1 = query(curr);
+            if (r1 == 0) {
+                // Mole is above.
+                lower = curr;
+                break;
+            }
+            int r2 = query(e);
+            if (r2 == 1) {
+                // Mole is in subtree, go down till ldist isnt big enough OR find an intersection
+                curr = e;
+                found = true;
+                break;
+            }
+            else {
+                // not in subtree
             }
         }
         if (lower != -1) break;
+        if (!found) {
+            lower = curr;
+        }
     }
-
-    // BINARY SEARCH
-    vector<vector<int>> binaryLifting(n, vector<int>(20, -1));
-    constBin(0, -1, adj, binaryLifting);
+    dbg("Binary Searching", lower);
     vector<int> path;
-    for(int i = lower; i != -1; i = binaryLifting[i][0]) {
-        path.push_back(i);
+    int c = lower;
+    while(c != -1) {
+        path.push_back(c);
+        c = par[c];
     }
     reverse(path.begin(), path.end());
-    // Path from 0 to lower node
-    int L = 0;
-    int R = path.size() - 1;
+    int L = 0, R = path.size() - 1;
     while(L < R) {
-        int M = (L + R + 1) / 2;
-        query(path[M]);
-        int res; cin >> res;
-        if (res == 1) {
-            L = M;
-        }
-        else {
-            R = M - 1;
-            R = max(0, R - 1);
+        int tq = (L + R + 1) / 2;
+        int res = query(path[tq]);
+        if (res == 0) {
+            R = max(0, tq - 2);
             L = max(0, L - 1);
         }
+        else {
+            L = tq;
+        }
     }
-    ans(path[L]);
+    answer(path[L]);
+    return;
 }
 
 int main() {
