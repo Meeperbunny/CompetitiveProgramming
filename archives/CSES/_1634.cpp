@@ -12,13 +12,24 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
-    
+    int n, x;
+    cin >> n >> x;
+    vector<int> mc(x + 1, x + 1);
+    mc[0] = 0;
+    for(int i = 0; i < n; i++) {
+        int c; cin >> c;
+        for(int q = c; q <= x; q++) {
+            mc[q] = min(mc[q - c] + 1, mc[q]);
+        }
+    }
+    mc[x] = mc[x] == x + 1 ? -1 : mc[x];
+    cout << mc[x] << endl;
 }
 
 int main() {
     HEADER;
     int T = 1;
-    cin >> T;
+    // cin >> T;
     for (int t = 0; t < T; t++) {
         TC();
     }

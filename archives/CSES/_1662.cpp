@@ -11,14 +11,34 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #define dbg(...)
 #endif
 
+ll norm(ll c, ll n) {
+    return (c % n + n) % n;
+}
+
 void TC() {
-    
+    ll n; cin >> n;
+    vector<ll> a(n);
+    for(int i = 0; i < n; i++) cin >> a[i];
+    vector<ll> pre(n + 1, 0);
+    map<ll, ll> cnts;
+    cnts[0]++;
+    for(int i = 1; i <= n; i++) {
+        pre[i] = pre[i - 1] + a[i - 1];
+        cnts[norm(pre[i], n)]++;
+    }
+    ll tot = 0;
+    for(int i = 0; i < n; i++) {
+        cnts[norm(pre[i], n)]--;
+        ll lk = norm(pre[i] + n, n);
+        tot += cnts[lk];
+    }
+    cout << tot << endl;
 }
 
 int main() {
     HEADER;
     int T = 1;
-    cin >> T;
+    // cin >> T;
     for (int t = 0; t < T; t++) {
         TC();
     }

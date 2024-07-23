@@ -22,6 +22,10 @@ else
 	rm -f $(basename $(file)).exe
 endif
 
+# Reset source.cpp to the template
+reset:
+	cp template.cpp source.cpp
+
 # Clean up generated files
 clean:
 	rm -rf *.exe
