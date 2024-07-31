@@ -12,6 +12,24 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int n; cin >> n;
+    vector<int> a(n - 1);
+    for(auto &e : a) cin >> e;
+
+    vector<int> b(n);
+    for(int i = 0; i < n - 1; i++) {
+        b[i] |= a[i];
+        b[i + 1] |= a[i];
+    }
+    for(int i = 0; i < n - 1; i++) {
+        // cout << '\t' << i << ' ' << (b[i] & b[i + 1]) << ' ' << a[i] << endl;
+        if ((b[i] & b[i + 1]) != a[i]) {
+            cout << -1 << endl;
+            return;
+        }
+    }
+    for(auto e : b) cout << e << ' ';
+    cout << endl;
 }
 
 int main() {

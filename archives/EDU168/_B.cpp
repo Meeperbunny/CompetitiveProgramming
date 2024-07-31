@@ -12,6 +12,17 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int n; cin >> n;
+    vector<string> a(2);
+    cin >> a[0] >> a[1];
+    int cnt = 0;
+    for(int i = 1; i < n - 1; i++) {
+        string bs = a[0].substr(i - 1, 3), ts = a[1].substr(i - 1, 3);
+        if ((bs == "x.x" && ts == "...") || (bs == "..." && ts == "x.x")) {
+            cnt++;
+        } 
+    }   
+    cout << cnt << endl;
 }
 
 int main() {

@@ -12,6 +12,11 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int n; cin >> n;
+    int cnt = n / 4;
+    n %= 4;
+    cnt += n / 2;
+    cout << cnt << endl;
 }
 
 int main() {

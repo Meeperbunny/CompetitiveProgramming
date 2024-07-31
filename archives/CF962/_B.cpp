@@ -12,6 +12,20 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int n, k; cin >> n >> k;
+    dbg(n, k);
+    vector<vector<int>> res(n / k, vector<int>(n / k));
+    vector<vector<int>> grid(n, vector<int>(n));
+    for(auto &e : grid) {
+        string s; cin >> s;
+        for(int i = 0; i < n; i++) e[i] = s[i] == '1';
+    }
+    for(int i = 0; i < n / k; i += 1) {
+        for(int q = 0; q < n / k; q += 1) {
+            res[i][q] = grid[i * k][q * k];
+            cout << res[i][q];
+        } cout << endl;
+    }
 }
 
 int main() {

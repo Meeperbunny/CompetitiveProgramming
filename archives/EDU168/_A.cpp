@@ -12,6 +12,25 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    string s; cin >> s;
+    for(int i = 1; i < s.size(); i++) {
+        if (s[i] == s[i - 1]) {
+            if (s[i] == 'a') {
+                cout << s.substr(0, i) + "b" + s.substr(i) << endl;
+                return;
+            }
+            else {
+                cout << s.substr(0, i) + "a" + s.substr(i) << endl;
+                return;
+            }
+        }
+    }
+    if (s[0] == 'a') {
+        cout << "b" + s << endl;
+    }
+    else {
+        cout << "a" + s << endl;
+    }
 }
 
 int main() {

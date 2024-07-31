@@ -12,6 +12,15 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int n;
+    cin >> n;
+    vector<int> a(n);
+    for(auto &e : a) cin >> e;
+    int ma = 0;
+    for(int i = 0; i < n; i += 2) {
+        ma = max(ma, a[i]);
+    }
+    cout << ma << endl;
 }
 
 int main() {
