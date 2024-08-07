@@ -12,6 +12,21 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int n, m, s;
+    cin >> n >> s >> m;
+    int lend = 0;
+    vector<pair<int, int>> a(n + 1);
+    a[n] = {m, m};
+    for(int i = 0; i < n; i++) cin >> a[i].first >> a[i].second;
+    sort(a.begin(), a.end());
+    for(int i = 0; i < n + 1; i++) {
+        if (a[i].first - lend >= s) {
+            cout << "YES" << endl;
+            return;
+        }
+        lend = a[i].second;
+    }
+    cout << "NO" << endl;
 }
 
 int main() {

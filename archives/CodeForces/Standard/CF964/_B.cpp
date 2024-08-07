@@ -12,6 +12,14 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int a, b, c, d;
+    cin >> a >> b >> c >> d;
+    int ways = 0;
+    if ((a > c && b == d) || (a == c && b > d) || (a > c && b > d)) ways++;
+    if ((a > d && b == c) || (a == d && b > c) || (a > d && b > c)) ways++;
+    if ((b > c && a == d) || (b == c && a > d) || (b > c && a > d)) ways++;
+    if ((b > d && a == c) || (b == d && a > c) || (b > d && a > c)) ways++;
+    cout << ways << endl;
 }
 
 int main() {

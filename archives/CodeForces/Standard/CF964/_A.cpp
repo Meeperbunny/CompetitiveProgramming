@@ -12,6 +12,12 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int tot = 0;
+    string s; cin >> s;
+    for(auto e : s) {
+        tot += e - '0';
+    }
+    cout << tot << endl;
 }
 
 int main() {
