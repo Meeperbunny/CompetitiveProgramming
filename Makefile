@@ -5,7 +5,7 @@ default: run
 
 # Target to create folder in the current directory and copy template files with prefix "_"
 create:
-	mkdir -p archives/$(folder)
+	mkdir -p archive/$(folder)
 	for file in $(files); do \
 		cp template.cpp $=_$${file}.cpp; \
 	done
