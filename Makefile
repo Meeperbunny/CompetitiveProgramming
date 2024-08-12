@@ -25,6 +25,8 @@ endif
 # Reset source.cpp to the template
 reset:
 	cp template.cpp source.cpp
+	> file.in
+	> file.out
 
 # Clean up generated files
 clean:
