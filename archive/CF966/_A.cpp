@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define HEADER ios::sync_with_stdio(0);cin.tie(0);if (fopen("file.in", "r")) {freopen("file.in", "r+", stdin);};
-#define all(v) v.begin(), v.end()
 using ll = long long;
 void dbg_out() { cerr << endl; }
 template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr << ' ' << H; dbg_out(T...); }
@@ -13,18 +12,9 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
-    string s; cin >> s;
-    if (s.size() >= 3) {
-        if (s[2] != '0') {
-            if (s.substr(0, 2) == "10") {
-                if (stoi(s.substr(2)) > 1) {
-                    cout << "YES" << endl;
-                    return;
-                }
-            }
-        }
-    }
-    cout << "NO" << endl;
+    ll n, m, k;
+    cin >> n >> m >> k;
+    cout << min(n, k) * min(m, k) << endl;
 }
 
 int main() {
