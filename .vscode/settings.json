@@ -92,5 +92,6 @@
         "xloctime": "cpp",
         "xmemory": "cpp",
         "xtr1common": "cpp"
-    }
+    },
+    "makefile.configureOnOpen": true
 }
