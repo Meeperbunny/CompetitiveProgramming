@@ -151,7 +151,7 @@ const int64_t MOD = 998244353;
 using mint = _mint<MOD>;
  
 struct StringHash {
-    const ll incPrime = 29;
+    ll incPrime = 29;
     vector<mint> prefixHash;
     string s;
     StringHash(string _s) {
@@ -172,6 +172,9 @@ struct StringHash {
         mint h2 = prefixHash[r2 + 1] - prefixHash[l2] * mint(incPrime).pow(r2 - l2 + 1);
  
         return h1 == h2;
+    }
+    mint hash(int l1, int r1) {
+        return prefixHash[r1 + 1] - prefixHash[l1] * mint(incPrime).pow(r1 - l1 + 1);
     }
 };
  
