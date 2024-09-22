@@ -14,6 +14,14 @@
         "deque": "cpp",
         "string": "cpp",
         "vector": "cpp",
-        "span": "cpp"
+        "span": "cpp",
+        "iosfwd": "cpp",
+        "functional": "cpp",
+        "array": "cpp",
+        "string_view": "cpp",
+        "initializer_list": "cpp",
+        "ranges": "cpp",
+        "stacktrace": "cpp",
+        "regex": "cpp"
     }
 }
