@@ -22,6 +22,9 @@
         "initializer_list": "cpp",
         "ranges": "cpp",
         "stacktrace": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "cmath": "cpp",
+        "complex": "cpp",
+        "bit": "cpp"
     }
 }

@@ -151,7 +151,7 @@ const int64_t MOD = 998244353;
 using mint = _mint<MOD>;
  
 struct StringHash {
-    ll incPrime = 29;
+    int incPrime = 29;
     vector<mint> prefixHash;
     string s;
     StringHash(string _s) {

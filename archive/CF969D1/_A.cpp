@@ -12,54 +12,82 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #define dbg(...)
 #endif
 
-void dfs(int c, int l, vector<vector<int>> &adj, map<char, int> &cnts, map<char, int> &extra, string &s) {
-    if (adj[c].size() == 1 && l != -1) {
-        cnts[s[c]]++;
-        return;
-    }
-    else {
-        extra[s[c]]++;
-    }
+int innercount;
+int leafQCount;
+int leafOneCount;
+int leafZeroCount;
+
+void dfs(int c, int l, vector<vector<int>> &adj, string& s) {
+    int b = 0;
     for(auto e : adj[c]) {
-        if (e != l) {
-            dfs(e, c, adj, cnts, extra, s);
-        }
+        if (e == l) continue;
+        b++;
+        dfs(e, c, adj, s);
+    }
+    if (b == 0) {
+        if (s[c] == '?') leafQCount++;
+        if (s[c] == '1') leafOneCount++;
+        if (s[c] == '0') leafZeroCount++;
+    }
+    else if (c != 0) {
+        if (s[c] == '?') innercount++;
     }
 }
 
 void TC() {
     int n; cin >> n;
     vector<vector<int>> adj(n);
+    string s;
     for(int i = 0; i < n - 1; i++) {
-        int a, b;
-        cin >> a >> b;
-        a--, b--;
+        int a,b;cin>>a>>b;
+        a--,b--;
         adj[a].push_back(b);
         adj[b].push_back(a);
     }
-    map<char, int> cnts, ex;
-    string s; cin >> s;
-    dfs(0, -1, adj, cnts, ex, s);
-    if (s[0] == '?') ex['?']--;
-    dbg(cnts['0'], cnts['1'], cnts['?']);
-
-    int extra = 0;
+    cin >> s;
+    innercount = 0;
+    leafQCount = 0;
+    leafOneCount = 0;
+    leafZeroCount = 0;
+    dfs(0, -1, adj, s);
+    // cout << innercount << ' ' << leafQCount << ' ' << leafOneCount << ' ' << leafZeroCount << endl;
     if (s[0] == '?') {
-        if (cnts['0'] + cnts['1']) {
-            int add = int(cnts['?'] / 2);
-            cout << max(cnts['0'], cnts['1']) + add << endl;
+        int whoseturn = innercount % 2;
+        int iriscount = 0;
+        if (leafOneCount == leafZeroCount) {
+            // Doesnt matter which you choose, just whatever. second is losing
+            if (whoseturn == 0) {
+                // forced to go first.
+                // going second
+                iriscount += leafOneCount;
+                iriscount += (leafQCount) / 2;
+                cout << iriscount << endl;
+                return;
+            }
+            else  {
+                // going second
+                iriscount += leafOneCount;
+                iriscount += (leafQCount + 1) / 2;
+                cout << iriscount << endl;
+                return;
+
+            }
         }
         else {
-            int add = int((cnts['?']) / 2);
-            if (ex['?'] & 1) add = int((cnts['?'] + 1) / 2);
-            cout << add << endl;
-            //
+            // First does matter.
+            iriscount += max(leafZeroCount, leafOneCount);
+            iriscount += (leafQCount) / 2;
+            cout << iriscount << endl;
+            return;
         }
     }
     else {
-        int add = int((cnts['?'] + 1) / 2);
-        if (ex['?'] & 1) add = int(cnts['?'] / 2);
-        cout << (s[0] == '1' ? cnts['0'] : cnts['1']) + add << endl;
+        int iriscount = 0;
+        if (s[0] == '1') iriscount += leafZeroCount;
+        else iriscount += leafOneCount;
+        iriscount += int((leafQCount + 1) / 2);
+        cout << iriscount << endl;
+        return;
     }
 }
 
