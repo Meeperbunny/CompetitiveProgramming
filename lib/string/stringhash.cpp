@@ -153,11 +153,12 @@ using mint = _mint<MOD>;
 struct StringHash {
     int incPrime = 29;
     vector<mint> prefixHash;
-    unordered_map<int, mint> memo;
+    vector<mint> memo;
     string s;
     StringHash(string _s) {
         s = _s;
         prefixHash = vector<mint>(_s.size() + 1);
+        hashMemo = vector<mint>(_s.size() + 1, 0);
         prefixHash[0] = 0;
         for(int i = 1; i <= s.size(); i++) {
             prefixHash[i] = prefixHash[i - 1] * mint(incPrime) + mint(s[i - 1] - 'a');
@@ -169,7 +170,7 @@ struct StringHash {
             swap(l1, l2);
             swap(r1, r2);
         }
-        if (!memo.count(r1 - l1 + 1)) memo[r1 - l1 + 1] = mint(incPrime).pow(r1 - l1 + 1);
+        if (memo[r1 - l1 + 1] == 0) memo[r1 - l1 + 1] = mint(incPrime).pow(r1 - l1 + 1);
         mint p = memo[r1 - l1 + 1];
         mint h1 = prefixHash[r1 + 1] - prefixHash[l1] * p;
         mint h2 = prefixHash[r2 + 1] - prefixHash[l2] * p;
@@ -177,7 +178,7 @@ struct StringHash {
         return h1 == h2;
     }
     mint hash(int l1, int r1) {
-        if (!memo.count(r1 - l1 + 1)) memo[r1 - l1 + 1] = mint(incPrime).pow(r1 - l1 + 1);
+        if (memo[r1 - l1 + 1] == 0) memo[r1 - l1 + 1] = mint(incPrime).pow(r1 - l1 + 1);
         mint p = memo[r1 - l1 + 1];
         return prefixHash[r1 + 1] - prefixHash[l1] * mint(incPrime).pow(r1 - l1 + 1);
     }
