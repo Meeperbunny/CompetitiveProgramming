@@ -153,6 +153,7 @@ using mint = _mint<MOD>;
 struct StringHash {
     int incPrime = 29;
     vector<mint> prefixHash;
+    unordered_map<int, mint> memo;
     string s;
     StringHash(string _s) {
         s = _s;
@@ -168,12 +169,16 @@ struct StringHash {
             swap(l1, l2);
             swap(r1, r2);
         }
-        mint h1 = prefixHash[r1 + 1] - prefixHash[l1] * mint(incPrime).pow(r1 - l1 + 1);
-        mint h2 = prefixHash[r2 + 1] - prefixHash[l2] * mint(incPrime).pow(r2 - l2 + 1);
+        if (!memo.count(r1 - l1 + 1)) memo[r1 - l1 + 1] = mint(incPrime).pow(r1 - l1 + 1);
+        mint p = memo[r1 - l1 + 1];
+        mint h1 = prefixHash[r1 + 1] - prefixHash[l1] * p;
+        mint h2 = prefixHash[r2 + 1] - prefixHash[l2] * p;
  
         return h1 == h2;
     }
     mint hash(int l1, int r1) {
+        if (!memo.count(r1 - l1 + 1)) memo[r1 - l1 + 1] = mint(incPrime).pow(r1 - l1 + 1);
+        mint p = memo[r1 - l1 + 1];
         return prefixHash[r1 + 1] - prefixHash[l1] * mint(incPrime).pow(r1 - l1 + 1);
     }
 };
