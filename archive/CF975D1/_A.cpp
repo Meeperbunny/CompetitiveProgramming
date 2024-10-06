@@ -13,32 +13,23 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
-    ll n, q;
-    cin >> n >> q;
-    vector<ll> x(n);
-    for(auto &e : x) cin >> e;
-    ll c = 0;
-    map<ll, ll> a;
-    ll cm = LLONG_MAX, cma = 0;
-    for(ll i = 0; i < n - 1; i++) {
-        c -= i;
-        c += (n - i - 1);
-        cm = min(cm, c);
-        cma = max(cma, c);
-        a[c] += x[i + 1] - x[i] - 1;
+    ll n, k;
+    cin >> n >> k;
+    vector<ll> a(n);
+    for(int i = 0; i < n; i++) cin >> a[i];
+    sort(all(a), greater<ll>());
+    ll tot = accumulate(all(a), 0ll);
+    ll base = a[0];
+    for(ll l = n; l >= 1; l--) {
+        ll nb = max(ll((tot + l - 1) / l), base);
+        // dbg(l, nb);
+        // Check if possible
+        ll mintot = l * nb;
+        if (tot <= mintot && mintot <= tot + k) {
+            cout << l << endl;
+            return;
+        }
     }
-    if (n & 1) {
-        a[cma] += 1;
-    }
-    for(auto e : a) {
-        a[e.first] += 2;
-    }
-    dbg(cm, cma);
-    while(q--) {
-        ll j; cin >> j;
-        cout << a[j] << ' ';
-    }
-    cout << endl;
 }
 
 int main() {

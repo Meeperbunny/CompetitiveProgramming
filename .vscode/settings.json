@@ -25,6 +25,9 @@
         "regex": "cpp",
         "cmath": "cpp",
         "complex": "cpp",
-        "bit": "cpp"
+        "bit": "cpp",
+        "xtree": "cpp",
+        "xstring": "cpp",
+        "utility": "cpp"
     }
 }
