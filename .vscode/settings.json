@@ -28,6 +28,12 @@
         "bit": "cpp",
         "xtree": "cpp",
         "xstring": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "tuple": "cpp",
+        "xutility": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "xhash": "cpp",
+        "xiosbase": "cpp"
     }
 }
