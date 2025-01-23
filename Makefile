@@ -13,11 +13,11 @@ create:
 # Target to compile and run the default program or a specified file
 run:
 ifeq ($(file),)
-	g++ source.cpp -g -Wall -Wextra -Wfatal-errors -DIAN_DEBUG -o source.exe
+	g++ source.cpp -g -Wall -Wextra -Wfatal-errors -DIAN_DEBUG -o source.exe -O3
 	./source.exe
 	rm -f source.exe
 else
-	g++ $(file) -g -Wall -Wextra -Wfatal-errors -DIAN_DEBUG -o $(basename $(file)).exe
+	g++ $(file) -g -Wall -Wextra -Wfatal-errors -DIAN_DEBUG -o $(basename $(file)).exe -O3 -march=native -mavx -mavx2
 	./$(basename $(file)).exe
 	rm -f $(basename $(file)).exe
 endif
