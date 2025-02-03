@@ -16,6 +16,17 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int n; cin >> n;
+    vector<ll> a(n), b(n);
+    for(auto &e : a) cin >> e;
+    for(auto &e : b) cin >> e;
+    map<ll, ll> ca, cb;
+    for(auto e : a) ca[e]++;
+    for(auto e : b) cb[e]++;
+    if (ca.size() >= 3 || cb.size() >= 3 || (ca.size() >= 2 && cb.size() >= 2)) {
+        cout << "YES" << endl;
+    }
+    else cout << "NO" << endl;
 }
 
 int main() {

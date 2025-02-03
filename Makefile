@@ -17,7 +17,7 @@ ifeq ($(file),)
 	./source.exe
 	rm -f source.exe
 else
-	g++ $(file) -g -Wall -Wextra -Wfatal-errors -DIAN_DEBUG -o $(basename $(file)).exe -O3 -march=native -mavx -mavx2
+	g++ $(file) -g -Wall -Wextra -Wfatal-errors -DIAN_DEBUG -o $(basename $(file)).exe -O3 -march=native
 	./$(basename $(file)).exe
 	rm -f $(basename $(file)).exe
 endif

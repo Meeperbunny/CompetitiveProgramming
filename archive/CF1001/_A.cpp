@@ -16,6 +16,9 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    string s;
+    cin >> s;
+    cout << count(all(s), '1') << endl;
 }
 
 int main() {

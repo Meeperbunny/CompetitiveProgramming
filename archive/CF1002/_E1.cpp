@@ -16,6 +16,12 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    // Does the current prefix match>?
+    // 1 2 3
+    // 5 5 5
+
+    // 4 1 2
+    // 1 2 3
 }
 
 int main() {
