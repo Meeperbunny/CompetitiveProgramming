@@ -146,8 +146,8 @@ struct _mint {
  
 template<const int64_t &MOD> _mint<MOD> _mint<MOD>::save_inv[_mint<MOD>::SAVE_INV];
  
-const int64_t MOD = 998244353;
-// const int64_t MOD = int64_t(1e9) + 7;
+// const int64_t MOD = 998244353;
+const int64_t MOD = int64_t(1e9) + 7;
 using mint = _mint<MOD>;
  
 struct StringHash {
