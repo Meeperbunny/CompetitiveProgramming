@@ -1,3 +1,20 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define HEADER ios::sync_with_stdio(0);cin.tie(0);if (fopen("file.in", "r")) {freopen("file.in", "r+", stdin);};
+#define all(v) v.begin(), v.end()
+using ll = long long;
+void dbg_out() { cerr << endl; }
+template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr << ' ' << H; dbg_out(T...); }
+
+#pragma GCC optimize("O3,unroll-loops")
+#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
+
+#ifdef IAN_DEBUG
+#define dbg(...) cerr << '[' << __FILE__ << ':' << __LINE__ << "] (" << #__VA_ARGS__ << "):", dbg_out(__VA_ARGS__)
+#else
+#define dbg(...)
+#endif
+
 template<const int64_t &MOD>
 struct _mint {
     int val;
@@ -136,6 +153,35 @@ struct _mint {
 
 template<const int64_t &MOD> _mint<MOD> _mint<MOD>::save_inv[_mint<MOD>::SAVE_INV];
 
-// const int64_t MOD = 998244353;
-const int64_t MOD = int64_t(1e9) + 7;
+const int64_t MOD = 998244353;
+// const int64_t MOD = int64_t(1e9) + 7;
 using mint = _mint<MOD>;
+
+void TC() {
+    int n; cin >> n;
+    vector<int> a(n);
+    for(int i = 0; i < n; i++) cin >> a[i];
+    mint ans = 0, t = 0, c = 0;
+    for(auto &e : a) {
+        if (e == 1) {
+            c++, t++;           
+        }
+        if (e == 2) {
+            t *= 2;
+        }
+        if (e == 3) {
+            ans += t - c;
+        }
+    }
+    cout << ans << endl;
+}
+
+int main() {
+    HEADER;
+    int T = 1;
+    cin >> T;
+    for (int t = 0; t < T; t++) {
+        TC();
+    }
+    return 0;
+}

@@ -1,3 +1,20 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define HEADER ios::sync_with_stdio(0);cin.tie(0);if (fopen("file.in", "r")) {freopen("file.in", "r+", stdin);};
+#define all(v) v.begin(), v.end()
+using ll = long long;
+void dbg_out() { cerr << endl; }
+template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr << ' ' << H; dbg_out(T...); }
+
+#pragma GCC optimize("O3,unroll-loops")
+#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
+
+#ifdef IAN_DEBUG
+#define dbg(...) cerr << '[' << __FILE__ << ':' << __LINE__ << "] (" << #__VA_ARGS__ << "):", dbg_out(__VA_ARGS__)
+#else
+#define dbg(...)
+#endif
+
 template<const int64_t &MOD>
 struct _mint {
     int val;
@@ -36,7 +53,17 @@ struct _mint {
     }
 
     static unsigned fast_mod(uint64_t x, unsigned m = MOD) {
+#if !defined(_WIN32) || defined(_WIN64)
         return unsigned(x % m);
+#endif
+        // Optimized mod for Codeforces 32-bit machines.
+        // x must be less than 2^32 * m for this to work, so that x / m fits in an unsigned 32-bit int.
+        unsigned x_high = unsigned(x >> 32), x_low = unsigned(x);
+        unsigned quot, rem;
+        asm("divl %4\n"
+            : "=a" (quot), "=d" (rem)
+            : "d" (x_high), "a" (x_low), "r" (m));
+        return rem;
     }
 
     _mint& operator*=(const _mint &other) {
@@ -136,6 +163,61 @@ struct _mint {
 
 template<const int64_t &MOD> _mint<MOD> _mint<MOD>::save_inv[_mint<MOD>::SAVE_INV];
 
-// const int64_t MOD = 998244353;
-const int64_t MOD = int64_t(1e9) + 7;
+const int64_t MOD = 998244353;
+// const int64_t MOD = int64_t(1e9) + 7;
 using mint = _mint<MOD>;
+
+void TC() {
+    int n; cin >> n;
+    vector<mint> levelCount(n+1, 0);
+    vector<mint> cnt(n, 0);
+    vector<vector<int>> adj(n);
+    vector<vector<int>> levels(n+1);
+    vector<int> le(n);
+    for(int i = 0; i < n - 1; i++) {
+        int a; cin >> a;
+        a--;
+        adj[a].push_back(i+1);
+        adj[i+1].push_back(a);
+    }
+    auto dfs = [&](auto dfs, int i, int j, int level) -> void {
+        le[i] = level;
+        levels[level].push_back(i);
+        for(auto e : adj[i]) {
+            if (e != j) {
+                dfs(dfs, e, i, level+1);
+            }
+        }
+    };
+    dfs(dfs, 0, -1, 0);
+    for(int i = n - 1; i >= 0; i--) {
+        for(auto e : levels[i]) {
+            mint toSub = 0;
+            for(auto i : adj[e]) {
+                if (le[i] == le[e] + 1) {
+                    toSub += cnt[i];
+                }
+            }
+            if (e == 0) {
+                cnt[e] = 1 + levelCount[le[e] + 1];
+            }
+            else cnt[e] = levelCount[le[e] + 1] + 1 - toSub;
+        }
+        for(auto e : levels[i]) {
+            levelCount[i] += cnt[e];
+        }
+    }
+    // for(auto e : cnt) cout << e << ' ';
+    // cout << endl;
+    cout << cnt[0] << endl;
+}
+
+int main() {
+    HEADER;
+    int T = 1;
+    cin >> T;
+    for (int t = 0; t < T; t++) {
+        TC();
+    }
+    return 0;
+}
