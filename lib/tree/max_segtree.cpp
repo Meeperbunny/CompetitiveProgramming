@@ -56,7 +56,7 @@ class MaxSegmentTree {
     
     public:
         // Constructor to initialize and build the Segment Tree with zeros
-        SegmentTree(int size) {
+        MaxSegmentTree(int size) {
             n = size;
             tree.resize(4 * n);
             lazy.resize(4 * n, 0);
@@ -65,7 +65,7 @@ class MaxSegmentTree {
         }
     
         // Constructor to initialize and build the Segment Tree from an array
-        SegmentTree(const vector<int>& a) {
+        MaxSegmentTree(const vector<int>& a) {
             n = a.size();
             tree.resize(4 * n);
             lazy.resize(4 * n, 0);
