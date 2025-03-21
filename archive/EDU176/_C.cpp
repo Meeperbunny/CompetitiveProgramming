@@ -1,3 +1,34 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define HEADER                           \
+    ios::sync_with_stdio(0);             \
+    cin.tie(0);                          \
+    if (fopen("file.in", "r"))           \
+    {                                    \
+        freopen("file.in", "r+", stdin); \
+    };
+#define all(v) v.begin(), v.end()
+using ll = long long;
+void dbg_out() { cerr << endl; }
+template <typename Head, typename... Tail>
+void dbg_out(Head H, Tail... T)
+{
+    cerr << ' ' << H;
+    dbg_out(T...);
+}
+
+#pragma GCC optimize("O3,unroll-loops")
+#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
+
+#ifdef IAN_DEBUG
+#define dbg(...) cerr << '[' << __FILE__ << ':' << __LINE__ << "] (" << #__VA_ARGS__ << "):", dbg_out(__VA_ARGS__)
+#else
+#define dbg(...)
+#endif
+
+#include <bits/stdc++.h>
+using namespace std;
+
 #ifndef ATCODER_INTERNAL_BITOP_HPP
 #define ATCODER_INTERNAL_BITOP_HPP 1
 
@@ -61,8 +92,6 @@ constexpr int countr_zero_constexpr(unsigned int n) {
 #include <cassert>
 #include <functional>
 #include <vector>
-
-#include "atcoder/internal_bit"
 
 namespace atcoder {
 
@@ -271,3 +300,44 @@ struct lazy_segtree {
 }  // namespace atcoder
 
 #endif  // ATCODER_LAZYSEGTREE_HPP
+    
+
+void TC()
+{
+    int n, m;
+    cin >> n >> m;
+    vector<int> a(n);
+
+    atcoder::lazy_segtree<int, 
+        [](int a, int b) { return a + b; },  // op: sum
+        []() { return 0; },                  // e: identity for sum
+        int, 
+        [](int f, int x) { return x + f; },  // mapping: apply add lazy
+        [](int f, int g) { return f + g; },  // composition: combine lazy functions
+        []() { return 0; }                  // id: identity for lazy function
+    > st(a);
+
+    ll t = 0;
+    while(m--) {
+        int k; cin >> k;
+        // cout << n - k << ' ' << n - 1 << ' ' << k << ' ' << ST.query(n - k, n - 1) << endl;
+        t += st.prod(n - k, n); // 1 5 9 3 8 4 7 5
+        st.apply(1, k + 1, 1); // 1 2
+        for(int q = 0; q < n - 1; q++) {
+            cout << st.prod(q, q + 2) << ' '; 
+        } cout << endl;
+    }
+    cout << 2 * t << endl;
+}
+
+int main()
+{
+    HEADER;
+    ll T = 1;
+    cin >> T;
+    for (ll t = 0; t < T; t++)
+    {
+        TC();
+    }
+    return 0;
+}
