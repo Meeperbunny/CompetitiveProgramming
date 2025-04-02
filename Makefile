@@ -1,5 +1,15 @@
 # Makefile for Codeforces problem setup
 
+# Detect platform
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Darwin)
+    CXX := clang++
+else
+    CXX := g++
+endif
+
+CXXFLAGS = -I ~/include -std=c++17 -g -Wall -Wextra -Wfatal-errors -DIAN_DEBUG -O3
+
 # Default target if just 'make' is called
 default: run
 
@@ -13,11 +23,11 @@ create:
 # Target to compile and run the default program or a specified file
 run:
 ifeq ($(file),)
-	g++ source.cpp -g -Wall -Wextra -Wfatal-errors -DIAN_DEBUG -o source.exe -O3 -std=c++2a
+	$(CXX) $(CXXFLAGS) source.cpp -o source.exe
 	./source.exe
 	rm -f source.exe
 else
-	g++ $(file) -g -Wall -Wextra -Wfatal-errors -DIAN_DEBUG -o $(basename $(file)).exe -O3 -march=native -std=c++2a
+	$(CXX) $(CXXFLAGS) $(file) -o $(basename $(file)).exe
 	./$(basename $(file)).exe
 	rm -f $(basename $(file)).exe
 endif
@@ -40,5 +50,4 @@ clean:
 folder := $(word 2,$(MAKECMDGOALS))
 files := $(wordlist 3,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
 
-# Convert the rest of the command line arguments to file names
 .PHONY: default create run clean
