@@ -26,10 +26,12 @@ ifeq ($(file),)
 	$(CXX) $(CXXFLAGS) source.cpp -o source.exe
 	./source.exe
 	rm -f source.exe
+	rm -rf source.exe.dSYM
 else
 	$(CXX) $(CXXFLAGS) $(file) -o $(basename $(file)).exe
 	./$(basename $(file)).exe
 	rm -f $(basename $(file)).exe
+	rm -rf $(basename $(file)).exe.dSYM
 endif
 
 # Reset source.cpp to the template
@@ -41,6 +43,7 @@ reset:
 # Clean up generated files
 clean:
 	rm -rf *.exe
+	rm -rf *.exe.dSYM
 
 # Prevent make from treating arguments as targets
 %:
