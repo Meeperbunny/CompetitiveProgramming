@@ -1,3 +1,22 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define HEADER ios::sync_with_stdio(0);cin.tie(0);if (fopen("file.in", "r")) {freopen("file.in", "r+", stdin);};
+#define all(v) v.begin(), v.end()
+using ll = long long;
+void dbg_out() { cerr << endl; }
+template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr << ' ' << H; dbg_out(T...); }
+
+#if defined(__GNUC__) && !defined(__clang__)
+#pragma GCC optimize("O3,unroll-loops")
+#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
+#endif
+
+#ifdef IAN_DEBUG
+#define dbg(...) cerr << '[' << __FILE__ << ':' << __LINE__ << "] (" << #__VA_ARGS__ << "):", dbg_out(__VA_ARGS__)
+#else
+#define dbg(...)
+#endif
+
 template<const int64_t &MOD>
 struct _mint {
     int val;
@@ -206,3 +225,124 @@ struct combinatorics {
 };
 
 combinatorics<MOD> combo;
+
+template <typename T>
+struct Fenwick {
+    int n;
+    std::vector<T> a;
+    
+    Fenwick(int n_ = 0) {
+        init(n_);
+    }
+    
+    void init(int n_) {
+        n = n_;
+        a.assign(n, T{});
+    }
+    
+    void add(int x, const T &v) {
+        for (int i = x + 1; i <= n; i += i & -i) {
+            a[i - 1] = a[i - 1] + v;
+        }
+    }
+    
+    T sum(int x) {
+        T ans{};
+        for (int i = x; i > 0; i -= i & -i) {
+            ans = ans + a[i - 1];
+        }
+        return ans;
+    }
+    
+    T rangeSum(int l, int r) {
+        return sum(r) - sum(l);
+    }
+    
+    int select(const T &k) {
+        int x = 0;
+        T cur{};
+        int msb = 0;
+        for (int temp = n; temp >>= 1; ++msb);
+        for (int i = 1 << msb; i; i /= 2) {
+            if (x + i <= n && cur + a[x + i - 1] <= k) {
+                x += i;
+                cur = cur + a[x - 1];
+            }
+        }
+        return x;
+    }
+};
+
+void TC() {
+    int n, l, K;
+    cin >> n >> l >> K;
+    l += K;
+    using T = Fenwick<mint>;
+    vector<mint> expec(n, 0);
+    vector<vector<Fenwick<mint>>> trees(l + 1, vector<Fenwick<mint>>(K + 2, Fenwick<mint>(n)));
+    trees[0][0].add(n - 1, 1);
+    // 
+    // binom(l, k) -> number of ways to use the k locks
+    for(int i = 0; i < l; i++) {
+        mint fullsum = 0;
+        for(int q = 0; q <= min(i, K); q++) {
+            fullsum += combo.choose(i, q);
+        }
+        // Normalize current row
+        for(int k = 0; k <= min(i, K); k++) {
+            mint cn = trees[i][k].rangeSum(k, k + 1);
+            trees[i][k].add(k, -cn);
+            trees[i][k].add(k, cn / fullsum);
+        }
+        for(int k = 0; k <= min(i, K); k++) {
+            auto &ft = trees[i][k];
+            auto &sameft = trees[i + 1][k];
+            auto &diffft = trees[i + 1][k + 1];
+            int tries = (l - i + k);
+            mint ts = ft.rangeSum(0, n);
+            int fullLoops = tries / n;
+            int back = tries % n;
+            // Fakes left / total locks left
+            mint probNextIsFake = mint(K - k) / mint(l - i);
+            mint probNextNotFake = mint(1) - probNextIsFake;
+            vector<mint> chances(n);
+            mint tt = 0;
+            for(int q = 0; q < n; q++) {
+                int gb = q - back;
+                mint tsum = ft.rangeSum(max(0, gb), q);
+                tsum += fullLoops * ts;
+                if (gb < 0) {
+                    tsum += ft.rangeSum(gb + n, n);
+                }
+                chances[q] += tsum;
+                tt += tsum;
+            }
+            // Normalize
+            for(int q = 0; q < n; q++) {
+                chances[q] /= tt;
+            }
+            for(int q = 0; q < n; q++) {
+                expec[q] += chances[q] * probNextNotFake;
+                sameft.add(q, chances[q] * probNextNotFake);
+            }
+            // If it is fake, then just shift it
+            for(int q = 0; q < n; q++) {
+                int prev = (((q - tries) % n) + n) % n;
+                diffft.add(q, ft.rangeSum(prev, prev + 1) * probNextIsFake);
+            }
+        }
+    }
+    for(int i = 0; i < n; i++) {
+        cout << expec[i] << ' ';
+    } cout << endl;
+}
+
+int main() {
+    HEADER;
+    int T = 1;
+    cin >> T;
+    for (int t = 0; t < T; t++) {
+        TC();
+    }
+    return 0;
+}

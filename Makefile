@@ -8,7 +8,7 @@ else
     CXX := g++
 endif
 
-CXXFLAGS = -I ~/include -std=c++17 -g -Wall -Wextra -Wfatal-errors -DIAN_DEBUG -O3
+CXXFLAGS = -I ~/include -std=c++20 -g -Wall -Wextra -Wfatal-errors -DIAN_DEBUG -O3
 
 # Default target if just 'make' is called
 default: run
