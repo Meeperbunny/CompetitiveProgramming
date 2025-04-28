@@ -1,4 +1,4 @@
-LL gcd(LL a, LL b) {
+ll gcd(ll a, ll b) {
     if (a % b == 0) {
         return b;
     }
