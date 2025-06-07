@@ -18,6 +18,8 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    B b{};
+    std::cout << b.foo() << std::endl;
 }
 
 int main() {
