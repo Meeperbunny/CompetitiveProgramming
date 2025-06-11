@@ -18,6 +18,24 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    set<int> req;
+    int n; cin >> n;
+    vector<int> a(n);
+    for(auto &e : a) cin >> e;
+    set<int> nu;
+    req.insert(a[0]);
+    int tc = 1;
+    for(int i = 1; i < n; i++) {
+        if (req.count(a[i]))
+            req.erase(a[i]);
+        nu.insert(a[i]);
+        if (req.size() == 0) {
+            tc++;
+            swap(req, nu);
+            nu.clear();
+        }
+    }
+    cout << tc << endl;
 }
 
 int main() {

@@ -3,8 +3,8 @@ using namespace std;
 using ll = long long;
 
 /// @brief Returns a prime sieve as a vector<bool> of size n + 1.
-std::vector<bool> sieve(ll n) {
-    std::vector<bool> isprime(n + 1, true);
+vector<bool> sieve(ll n) {
+    vector<bool> isprime(n + 1, true);
     isprime[0] = false, isprime[1] = false;
 
     // Do 2 first.
@@ -23,9 +23,9 @@ std::vector<bool> sieve(ll n) {
 }
 
 /// @brief Returns a vector of primes <= n.
-std::vector<ll> primes(ll n) {
+vector<ll> primes(ll n) {
     auto isprime = sieve(n);
-    std::vector<ll> plist;
+    vector<ll> plist;
     // TODO: Approx size and reserve plist.
     if (n >= 2) {
         plist.push_back(2);

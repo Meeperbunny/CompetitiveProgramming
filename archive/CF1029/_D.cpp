@@ -18,6 +18,29 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    ll n; cin >> n;
+    vector<ll> a(n);
+    for(auto &e : a) cin >> e;
+    ll diff = a[1] - a[0];
+    for(int i = 2; i < n; i++) {
+        if (a[i] - a[i - 1] != diff) {
+            cout << "NO" << endl;
+            return;
+        }
+    }
+    bool good;
+    if (diff == 0) {
+        good = a[0] >= 0 && a[0] % (n + 1ll) == 0;
+    }
+    else if (diff > 0) {
+        ll dec = diff;
+        good = a[0] - diff >= 0 && (a[0] - diff) % (n + 1ll) == 0;
+    }
+    else {
+        ll dec = -diff;
+        good = a[n - 1] - dec >= 0 && (a[n - 1] - dec) % (n + 1ll) == 0;
+    }
+    cout << (good ? "YES" : "NO") << endl;
 }
 
 int main() {
