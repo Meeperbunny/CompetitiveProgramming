@@ -18,6 +18,20 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    ll a, b, x, y;
+    cin >> a >> b >> x >> y;
+    vector<ll> cost(103, LLONG_MAX / 2);
+    cost[a] = 0;
+    ll s = a ^ 1;
+    cost[s] = y;
+    for(ll i = min(s, a); i <= 101; i++) {
+        ll nx = i + 1;
+        cost[nx] = min(cost[nx], cost[i] + x);
+        nx = i ^ 1;
+        cost[nx] = min(cost[nx], cost[i] + y);
+    }
+    if (cost[b] == LLONG_MAX / 2) cost[b] = -1;
+    cout << cost[b] << endl;
 }
 
 int main() {

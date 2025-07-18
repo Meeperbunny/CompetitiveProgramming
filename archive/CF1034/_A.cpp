@@ -18,6 +18,20 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int n; cin >> n;
+    if (n % 4 == 0) {
+        cout << "Bob" << endl;
+    }
+    else {
+        cout << "Alice" << endl;
+    }
+    // 0 -> A
+    // 1 -> A
+    // 2 -> A
+    // 3 -> B
+    // 4 -> B
+    // 0, 1, 2, 3, 4
+    // 5
 }
 
 int main() {

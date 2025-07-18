@@ -18,6 +18,25 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    ll x, y, z, k;
+    cin >> x >> y >> z >> k;
+    ll ct = 0;
+    ll lmo = 0;
+    ll b = LLONG_MAX;
+    for(ll fops = 1; fops <= 1e7; fops++) {
+        ll CC = 0;
+        ll mops = (fops - 1ll) / k;
+        CC += fops * x + y * mops;
+        if (mops > lmo) {
+            ct += fops - 1ll;
+            lmo = mops;
+        }
+        if (ct > z) break;
+        ll h = z - ct;
+        ll left = (h + fops - 1ll) / fops;
+        b = min(b, CC + left * y);
+    }
+    cout << b << endl;
 }
 
 int main() {
@@ -27,4 +46,5 @@ int main() {
     for (int t = 0; t < T; t++) {
         TC();
     }
+    return 0;
 }

@@ -18,6 +18,8 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int x; cin >> x;
+    cout << ((x % 33 == 0) ? "YES" : "NO") << endl;
 }
 
 int main() {
@@ -27,4 +29,5 @@ int main() {
     for (int t = 0; t < T; t++) {
         TC();
     }
+    return 0;
 }

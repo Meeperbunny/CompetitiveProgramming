@@ -18,6 +18,32 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    // If even,j ust ever 2
+    // 2 2 3 3
+    // 
+    int n; cin >> n;
+    if (n % 2 == 0) {
+        for(int i = 0; i < n; i++) {
+            cout << int(i / 2) + 1 << ' ';
+        }
+        cout << endl;
+        return;
+    }
+    else {
+        if (n < 27) {
+            cout << -1 << endl;
+            return;
+        }
+        else {
+            cout << "1 13 2 2 3 3 4 4 5 5 6 6 7 7 8 8 1 9 9 10 10 11 11 12 12 1 13 ";
+            int i = 14;
+            for(int q = 0; q < n - 27; q += 2) {
+                cout << i << ' ' << i << ' ';
+                i++;
+            } cout << endl;
+            return;
+        }
+    }
 }
 
 int main() {
@@ -27,4 +53,5 @@ int main() {
     for (int t = 0; t < T; t++) {
         TC();
     }
+    return 0;
 }

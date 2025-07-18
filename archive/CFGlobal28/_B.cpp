@@ -18,6 +18,15 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int n, k; cin >> n >> k;
+    vector<int> l(n, -1);
+    int c = 1;
+    for(int i = k - 1; i < n; i += k) {
+        l[i] = c++;
+    }
+    for(auto &e : l) if (e == -1) e = c++;
+    for(auto e : l) cout << e << ' ';
+    cout << '\n';
 }
 
 int main() {
@@ -27,4 +36,5 @@ int main() {
     for (int t = 0; t < T; t++) {
         TC();
     }
+    return 0;
 }

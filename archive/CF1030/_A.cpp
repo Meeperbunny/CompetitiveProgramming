@@ -18,6 +18,10 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    string s{};
+    int n, k;
+    cin >> n >> k;
+    cout << string(k, '1') + string(n - k, '0') << endl;
 }
 
 int main() {
@@ -27,4 +31,5 @@ int main() {
     for (int t = 0; t < T; t++) {
         TC();
     }
+    return 0;
 }

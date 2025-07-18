@@ -18,6 +18,16 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    map<int, int> c;
+    int n; cin >> n;
+    int mm = n;
+    int mc = 0;
+    while(n--) {
+        int j; cin >> j;
+        c[j]++;
+        mc = max(mc, c[j]);
+    }
+    cout << mm - mc << endl;
 }
 
 int main() {
@@ -27,4 +37,5 @@ int main() {
     for (int t = 0; t < T; t++) {
         TC();
     }
+    return 0;
 }

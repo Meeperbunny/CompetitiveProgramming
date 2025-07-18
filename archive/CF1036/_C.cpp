@@ -17,7 +17,33 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #define dbg(...)
 #endif
 
+ll gcd(ll a, ll b) {
+    if (a % b == 0) {
+        return b;
+    }
+    else return gcd(b, a % b);
+}
+
 void TC() {
+    int n; cin >> n;
+    vector<ll> a(n);
+    for(auto &e : a) cin >> e;
+    ll m = 1;
+    for(int i = 0; i < n - 1; i++) {
+        ll lv = a[i];
+        ll nv = a[i + 1];
+        ll g = gcd(lv, nv);
+        if (g != lv) {
+            // Make it lower.
+            lv /= m;
+            g = gcd(lv, nv);
+            if (g != lv) {
+                m *= lv / g;
+            }
+        }
+        // cout << m << ' ';
+    }
+    cout << m << endl;
 }
 
 int main() {

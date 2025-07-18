@@ -27,5 +27,4 @@ int main() {
     for (int t = 0; t < T; t++) {
         TC();
     }
-    return 0;
 }

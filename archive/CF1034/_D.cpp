@@ -18,6 +18,14 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int n, k;
+    string s;
+    cin >> n >> k >> s;
+    if (k * 2 > n || count(all(s), '1') <= k) {
+        cout << "Alice" << endl;
+        return;
+    }
+    cout << "Bob" << endl;
 }
 
 int main() {

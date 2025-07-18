@@ -18,6 +18,25 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int w, h, a, b;
+    cin >> w >> h >> a >> b;
+    int x1, y1, x2, y2;
+    cin >> x1 >> y1 >> x2 >> y2;
+    int xd = abs(x2 - x1);
+    int yd = abs(y2 - y1);
+    if (xd < a || yd < b) {
+        if (xd < a) {
+            cout << ((yd % b == 0) ? "YES" : "NO") << endl;
+        }
+        else if (yd < b) {
+            cout << ((xd % a == 0) ? "YES" : "NO") << endl;
+        }
+        else {
+            
+        }
+        return;
+    }
+    cout << ((xd % a == 0 || yd % b == 0) ? "YES" : "NO") << endl;
 }
 
 int main() {
@@ -27,4 +46,5 @@ int main() {
     for (int t = 0; t < T; t++) {
         TC();
     }
+    return 0;
 }

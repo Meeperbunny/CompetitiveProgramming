@@ -18,6 +18,22 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int n; cin >> n;
+    vector<int> a(n);
+    for(auto &e : a) cin >> e;
+    string s(n, '1');
+    vector<int> mi(a);
+    vector<int> ma(a);
+    for(int i = 1; i < n; i++) {
+        mi[i] = min(mi[i], mi[i - 1]);
+        ma[n - i - 1] = max(ma[n - i], ma[n - i - 1]);
+    }
+    for(int i = 0; i < n; i++) {
+        if (i == 0 || i == n - 1) continue;
+        // cout << i << ' ' << a[i] << ' ' << mi[i] << ' ' << ma[i] << endl;
+        s[i] = (mi[i - 1] >= a[i] || ma[i + 1] <= a[i] ? '1' : '0');
+    }
+    cout << s << endl;
 }
 
 int main() {

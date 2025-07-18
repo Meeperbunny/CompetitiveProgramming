@@ -18,6 +18,13 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    vector<int> a(3);
+    for(auto &e : a) cin >> e;
+    int b = a[0];
+    sort(all(a));
+    cout << (a[1] != b ? "YES" : "NO") << endl;
+
+    
 }
 
 int main() {
@@ -27,4 +34,5 @@ int main() {
     for (int t = 0; t < T; t++) {
         TC();
     }
+    return 0;
 }

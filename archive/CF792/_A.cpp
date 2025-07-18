@@ -18,6 +18,13 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    string s; cin >> s;
+    if (s.size() >= 3) {
+        cout << *min_element(all(s)) << endl;
+    }
+    else {
+        cout << s[1] << endl;
+    }
 }
 
 int main() {

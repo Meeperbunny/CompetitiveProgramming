@@ -18,6 +18,17 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    string s;
+    int n; cin >> n >> s;
+    map<int, int> c;
+    for(auto ch : s) c[ch]++;
+    for(int i = 1; i < n - 1; i++) {
+        if (c[s[i]] > 1) {
+            cout << "YES" << endl;
+            return;
+        }
+    }
+    cout << "NO" << endl;
 }
 
 int main() {
@@ -27,4 +38,5 @@ int main() {
     for (int t = 0; t < T; t++) {
         TC();
     }
+    return 0;
 }

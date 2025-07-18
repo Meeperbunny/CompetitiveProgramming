@@ -18,6 +18,25 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int k, a, b, x, y;
+    cin >> k >> x >> y >> a >> b;
+    if (a > b) {
+        swap(a, b);
+        swap(x, y);
+    }
+    // Use A
+    int tt = 0;
+    if (k >= x) {
+        int used = (k - x + a) / a;
+        tt += used;
+        k = k - (a * used);
+    }
+    // Try to use B
+    if (k >= y) {
+        int used = (k - y + b) / b;
+        tt += used;
+    }
+    cout << tt << endl;
 }
 
 int main() {
@@ -27,4 +46,5 @@ int main() {
     for (int t = 0; t < T; t++) {
         TC();
     }
+    return 0;
 }

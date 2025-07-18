@@ -18,6 +18,21 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int n; cin >> n;
+    vector<int> a(n);
+    for(auto &e : a) cin >> e;
+    for(int i = 0; i < n - 1; i++) {
+        if (a[i] != i + 1 && abs(a[i + 1] - a[i]) <= 1) {
+            swap(a[i], a[i + 1]);
+        }
+    }
+    for(int i = 0; i < n; i++) {
+        if (a[i] != i + 1) {
+            cout << "NO" << endl;
+            return;
+        }
+    }
+    cout << "YES" << endl;
 }
 
 int main() {
@@ -27,4 +42,5 @@ int main() {
     for (int t = 0; t < T; t++) {
         TC();
     }
+    return 0;
 }

@@ -18,6 +18,23 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int a, b, c;
+    cin >> a >> b >> c;
+    int x, y, z;
+    z = c;
+    y = b + z;
+    x = a + b + z;
+    cout << x << ' ' << y << ' ' << z << endl;
+
+    // 1 3 4
+
+    /*
+    X mod Z + b = a
+    Z + b mod Z = b
+    Z mod X = 4
+
+    x > 4
+    */
 }
 
 int main() {

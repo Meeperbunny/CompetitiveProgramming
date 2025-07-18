@@ -18,6 +18,21 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int n, j, k;
+    cin >> n >> j >> k;
+    vector<int> a(n);
+    for(auto & e : a) cin >> e;
+    if (k == 1) {
+        if (a[j - 1] == *max_element(all(a))) {
+            cout << "YES" << endl;
+            return;
+        }
+    }
+    else {
+        cout << "YES" << endl;
+        return;
+    }
+    cout << "NO" << endl;
 }
 
 int main() {

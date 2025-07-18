@@ -18,6 +18,27 @@ template<typename Head, typename... Tail> void dbg_out(Head H, Tail... T) { cerr
 #endif
 
 void TC() {
+    int n; cin >> n;
+    vector<int> b(n);
+    for(auto &e : b) cin >> e;
+    for(int i = 0; i < n - 1; i++) {
+        int aa = b[i];
+        int bb = b[i + 1];
+        if (abs(aa - bb) <= 1) {
+            cout << 0 << endl;
+            return;
+        }
+    }
+    bool dir = b[1] > b[0]; // 1 is up
+    for(int i = 0; i < n - 1; i++) {
+        int aa = b[i];
+        int bb = b[i + 1];
+        if ((aa < bb) ^ (dir)) {
+            cout << 1 << endl;
+            return;
+        }
+    }
+    cout << -1 << endl;
 }
 
 int main() {
@@ -27,4 +48,5 @@ int main() {
     for (int t = 0; t < T; t++) {
         TC();
     }
+    return 0;
 }
